@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Item List</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+        background: #f6f8fa;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        margin-top: 2.5rem;
+        color: #2d3748;
+        letter-spacing: 1px;
+      }
+      #item-list {
+        list-style: none;
+        padding: 0;
+        margin: 2rem 0 1rem 0;
+        width: 100%;
+        max-width: 400px;
+      }
+      #item-list li {
+        background: #fff;
+        margin-bottom: 1rem;
+        padding: 1rem 1.2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        font-size: 1.1rem;
+        color: #333;
+        display: flex;
+        align-items: center;
+        transition: box-shadow 0.2s;
+      }
+      #item-list li:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+      form {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        width: 100%;
+        max-width: 400px;
+      }
+      input[type="text"] {
+        flex: 1;
+        padding: 0.6em 1em;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 1rem;
+        background: #f9fafb;
+        transition: border 0.2s;
+      }
+      input[type="text"]:focus {
+        border: 1.5px solid #3182ce;
+        outline: none;
+        background: #fff;
+      }
+      button {
+        padding: 0.6em 1.5em;
+        background: #3182ce;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      button:hover {
+        background: #2563eb;
+      }
+      @media (max-width: 500px) {
+        #item-list,
+        form {
+          max-width: 95vw;
+        }
+        h1 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Item List</h1>
+    <ul id="item-list"></ul>
+    <form id="item-form">
+      <input type="text" id="item-name" placeholder="Item name" required />
+      <button type="submit">Add Item</button>
+    </form>
+    <script>
+      async function fetchItems() {
+        const res = await fetch("/items/get");
+        const data = await res.json();
+        const list = document.getElementById("item-list");
+        list.innerHTML = "";
+        data.items.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = `${item.id}: ${item.name}`;
+          list.appendChild(li);
+        });
+      }
+      document.getElementById("item-form").onsubmit = async (e) => {
+        e.preventDefault();
+        const name = document.getElementById("item-name").value;
+        await fetch("/items/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        document.getElementById("item-name").value = "";
+        fetchItems();
+      };
+      fetchItems();
+    </script>
+  </body>
+</html>

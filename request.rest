@@ -1,0 +1,13 @@
+##
+POST http://localhost:3000/items/create
+Content-Type: application/json
+
+{
+  "name": "test Item"
+}
+
+###
+GET http://localhost:3000/items/get?page=0&pageSize=10&search=test
+Content-Type: application/json
+
+
