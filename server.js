@@ -12,6 +12,7 @@ app.get(["/", "/index.html"], (req, res) => {
 const itemController = require("./src/controllers/item.controller");
 app.post("/items/create", itemController.createItem);
 app.get("/items/get", itemController.getItems);
+app.post("/items/clear", itemController.clearItems);
 
 app.use((req, res) => {
   res.status(404).json({ error: "Not found" });

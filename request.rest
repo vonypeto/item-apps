@@ -1,4 +1,9 @@
-##
+
+###
+POST http://localhost:3000/items/clear
+Content-Type: application/json
+
+###
 POST http://localhost:3000/items/create
 Content-Type: application/json
 

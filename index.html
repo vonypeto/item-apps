@@ -93,6 +93,17 @@
       <input type="text" id="item-name" placeholder="Item name" required />
       <button type="submit">Add Item</button>
     </form>
+    <button
+      id="clear-btn"
+      style="
+        margin-bottom: 2rem;
+        max-width: 400px;
+        width: 100%;
+        background: #e53e3e;
+      "
+    >
+      Clear All (Reset to Default)
+    </button>
     <script>
       async function fetchItems() {
         const res = await fetch("/items/get");
@@ -117,6 +128,12 @@
         fetchItems();
       };
       fetchItems();
+
+      document.getElementById("clear-btn").onclick = async (e) => {
+        e.preventDefault();
+        await fetch("/items/clear", { method: "POST" });
+        fetchItems();
+      };
     </script>
   </body>
 </html>
