@@ -4,8 +4,7 @@ const defaultItems = [
 ];
 let items = [...defaultItems];
 
-const pageSizeOptions = [5, 10, 20, 50, 100];
-function clearItems(req, res) {
+function clearItems(_, res) {
   items = [...defaultItems];
   res.status(200).json({ message: "Items reset to default." });
 }
